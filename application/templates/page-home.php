@@ -7,5 +7,4 @@
 
   <h1>Sample App</h1>
 
-  <?php print render('footerbar.php'); ?>
 </div>

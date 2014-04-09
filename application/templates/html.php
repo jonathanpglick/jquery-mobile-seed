@@ -23,7 +23,7 @@
 
     <?php if (ENVIRONMENT && ENVIRONMENT === 'development'): ?>
       <!-- jQuery Mobile CSS bits -->
-      <link rel="stylesheet" href="/css/jquery.mobile.structure-1.3.1.css" />
+      <link rel="stylesheet" href="/css/jquery-mobile-flat-ui-theme/generated/jquery.mobile.flatui.css" />
       <!-- Custom css -->
       <link rel="stylesheet" href="/css/custom.css" />
       <!-- Javascript includes -->
