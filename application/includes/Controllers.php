@@ -27,7 +27,7 @@ class SampleHomeController extends BaseController {
       'even' => 'Even',
       'odd' => 'Odd',
     );
-    $data['option_selected'] = $type;
+    $data['option_selected'] = isset($params['type']) ? $params['type'] : '';
     self::send('home', 'page-home.php', $data);
   }
 

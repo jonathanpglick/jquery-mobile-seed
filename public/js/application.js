@@ -126,20 +126,8 @@ var MOBILE = MOBILE || {
         $(this).addClass('ui-link-active')
       });
   },
-  pageChange: function(event, data) {
-    try {
-      // This fires twice for each page load but only one has a `toPage`
-      // attribute, so we use that to only fire the tracking once.
-      if (data.hasOwnProperty('toPage')) {
-        // We only want to track pages loaded via AJAX.  The `activeIndex` is
-        // 0 on the ititial page load.
-        if ($.mobile.urlHistory.activeIndex > 0) {
-          dataLayer = dataLayer || [];
-          dataLayer.push({'event': 'ajax.page.call'});
-        }
-      }
-    }
-    catch (e) {}
+  pageShow: function(event) {
+    MOBILE.trackPageView();
   },
   pageBeforeChange: function(event, data) {
     if (data.toPage === data.absUrl) {
@@ -297,10 +285,21 @@ var MOBILE = MOBILE || {
     $tabs.find('.tabs-body > *').hide();
     $tabs.find(target).show();
   },
+  trackPageView: function() {
+    try {
+      var hash = location.hash;
+      if (hash) {
+        ga('send', 'pageview', '/' + hash.substr(1));
+      } else {
+        ga('send', 'pageview');
+      }
+    }
+    catch (e) {}
+  },
   init: function() {
     $(document).on("pageinit", MOBILE.pageInit);
+    $(document).on("pageshow", MOBILE.pageShow);
     $(document).on("pagebeforeshow", MOBILE.pageBeforeShow);
-    $(document).on("pagechange", MOBILE.pageChange);
     $(document).on("pageremove", MOBILE.pageRemove);
     $(document).on("pagebeforechange", MOBILE.pageBeforeChange);
     $.mobile.defaultPageTransition = 'slide';

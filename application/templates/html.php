@@ -17,7 +17,7 @@
     <link rel="apple-touch-icon-precomposed" href="/apple-touch-icon-precomposed.png">
     <!-- For nokia devices and desktop browsers : -->
     <link rel="shortcut icon" href="/favicon.ico" />
-    
+
     <!-- Mobile IE allows us to activate ClearType technology for smoothing fonts for easy reading -->
     <meta http-equiv="cleartype" content="on">
 
@@ -58,5 +58,17 @@
       <?php print $content; ?>
 
     </div>
+
+    <?php if (defined('GOOGLE_ANALYTICS_ACCOUNT')): ?>
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', '<?php print GOOGLE_ANALYTICS_ACCOUNT; ?>', 'auto');
+      </script>
+    <?php endif; ?>
+
   </body>
 </html>
