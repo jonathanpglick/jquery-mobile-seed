@@ -7,5 +7,5 @@
 glue::stick(array(
   '/' => 'SampleHomeController',
   '/page-2' => 'SamplePageController',
-  '/item/(?P<id>\d+)' => 'ItemController',
+  '/item/(?P<id>\d+)' => 'SampleItemController',
 ));

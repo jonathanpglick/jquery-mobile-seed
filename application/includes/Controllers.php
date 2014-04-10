@@ -50,14 +50,17 @@ class SamplePageController extends BaseController {
 /**
  * Sample controller for Items ('/item/123').
  */
-class ItemController extends BaseController {
+class SampleItemController extends BaseController {
 
   /**
    * GET.
    */
   public function GET($params) {
-    $item_data = API::getItem($params['id']);
-    self::send('item-' . $params['id'], 'page-item.php', $item_data);
+    $item = API::getItem($params['id']);
+    $data = array(
+      'item' => $item,
+    );
+    self::send('item-' . $params['id'], 'page-item.php', $data);
   }
 
 }
