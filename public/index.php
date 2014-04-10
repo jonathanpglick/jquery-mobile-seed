@@ -23,7 +23,7 @@ if (isset($memcached_server) && isset($memcached_server['host']) && isset($memca
       API::setMemcachedObject($memcached, 'ctm_' . ENVIRONMENT . '_ ');
     }
     else {
-      throw new Exception("\$memcached_server variable set in 'settings.php' but memcache server is unavailable. Comment out \$memcached_server in 'applicaiton/config/settings.php' not use memcached.");
+      throw new Exception("\$memcached_server variable set in 'settings.php' but memcache server is unavailable. Comment out \$memcached_server in 'application/config/settings.php' to not use memcached.");
     }
   }
 }

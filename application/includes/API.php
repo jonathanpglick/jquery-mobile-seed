@@ -16,9 +16,10 @@ class API extends BaseAPI {
    */
   public static function getHomepageData($params) {
 
-    // External API calls can be mdade here like so:
+    // External API calls would be made here like this:
     // self::getJson(API_URL . '/api/homepage');
 
+    // Generate mock data for the sample app.
     $start = isset($params['start']) ? (int) $params['start'] : 0;
     $count = isset($params['count']) ? (int) $params['count'] : 20;
     $type = isset($params['type']) ? $params['type'] : '';
@@ -47,6 +48,8 @@ class API extends BaseAPI {
    * Returns data for an item by id.
    */
   public static function getItem($id) {
+
+    // Return mock item for the sample app.
     return array(
       'id' => $id,
       'img' => 'http://placekitten.com/g/500/200',
