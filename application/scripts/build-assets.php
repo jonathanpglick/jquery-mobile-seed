@@ -25,7 +25,7 @@ print "+ JS written to: $js_output_path" . PHP_EOL;
 
 
 $styles = array(
-  $public_path . '/css/jquery.mobile.structure-1.3.1.css',
+  $public_path . '/css/jquery-mobile-flat-ui-theme/generated/jquery.mobile.flatui.css',
   $public_path . '/css/custom.css',
 );
 $css_output_path = $public_path . '/css/built.min.css';

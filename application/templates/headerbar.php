@@ -14,5 +14,5 @@
 
   <h1>Sample jQuery Mobile App</h1>
 
-  <a data-iconpos="notext" data-role="button" data-icon="home" title="Home">Home</a>
+  <a href="/" data-iconpos="notext" data-role="button" data-icon="home" title="Home">Home</a>
 </div>

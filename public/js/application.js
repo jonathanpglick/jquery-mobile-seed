@@ -63,13 +63,13 @@ var MOBILE = MOBILE || {
       $loadMoreNode.hide();
     }
     else {
-      $('[data-role="listview"]', $page)
-        .append(html);
+      $('[data-role="listview"]', $page).append(html);
       $loadMoreNode.show();
     }
     $loadMoreNode.removeClass('ui-disabled');
     $.mobile.loading('hide');
     $page.trigger('create');
+    $('[data-role="listview"]', $page).listview('refresh');
     MOBILE.initDisqusCounts();
   },
   listPageUpdateQueryFromForm: function($page) {
