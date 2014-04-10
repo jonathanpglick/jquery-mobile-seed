@@ -232,7 +232,7 @@ var MOBILE = MOBILE || {
       var $disqus_data_node = $('.disqus_data', pageNode);
       var shortname = $disqus_data_node.attr('data-disqus_shortname');
       var identifier = $disqus_data_node.attr('data-disqus_identifier');
-      var title = $disqus_data_node.attr('data-disqus_ta_node_title');
+      var title = $disqus_data_node.attr('data-disqus_title');
       var url = $disqus_data_node.attr('data-disqus_url');
 
       // Load or reset disqus.
