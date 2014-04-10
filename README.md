@@ -1,13 +1,8 @@
+jQuery Mobile Seed
+==================
 
-Car Talk Mobile Site
-====================
-
-A mobile companion site to <http://wwww.cartalk.com>.  This site consumes an
-API exposed by the main site and displays it in a jQuery Mobile wrapper.
-
-Environment-specific configuration files are in `application/config`.
-
-Works with `Memcached` if it is available and is configured in `settings.php`.
+A jQuery Mobile seed project with a PHP backend used to retrieve data and
+compose pages.
 
 ## Build CSS & JS
 
