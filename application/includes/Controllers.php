@@ -15,8 +15,34 @@ class SampleHomeController extends BaseController {
    * GET.
    */
   public function GET($params) {
-    $homepage_data = API::getHomepageData();
-    self::send('home', 'page-home.php', $homepage_data);
+    $data = API::getHomepageData($params);
+
+    if (isset($params['itemsOnly']) && $params['itemsOnly']) {
+      print render('partial-items-list.php', array('items' => $data['items']));
+      return;
+    }
+
+    $data['options'] = array(
+      '' => '- All - ',
+      'even' => 'Even',
+      'odd' => 'Odd',
+    );
+    $data['option_selected'] = $type;
+    self::send('home', 'page-home.php', $data);
+  }
+
+}
+
+/**
+ * Sample controller for page 2 ('/page-2').
+ */
+class SamplePageController extends BaseController {
+
+  /**
+   * GET.
+   */
+  public function GET($params) {
+    self::send('home', 'page-page-2.php');
   }
 
 }

@@ -5,23 +5,25 @@
 var MOBILE = MOBILE || {
   animationDuration: 300,
   itemsPerPage: 20,
-  listPages: ['the-show-archives', 'the-puzzler-archives', 'blogs'],
+  listPages: ['home'],
   activePage: function() {
     return $($.mobile.activePage[0]);
   },
   initListPage: function(page) {
-    $(page).jqmData('query', {
+    var $page = $(page);
+    $page.jqmData('query', {
       start: 0,
       count: MOBILE.itemsPerPage,
       itemsOnly: true
     });
-
+    MOBILE.listPageUpdateQueryFromForm($page);
     var loadMoreNode = $('.load-more', page);
     loadMoreNode.click(MOBILE.loadMoreClick);
-    $(page).jqmData('loadMoreNode', loadMoreNode);
-    $(page).jqmData('noMoreNode', $('.no-more', page));
+    $page.jqmData('loadMoreNode', loadMoreNode);
+    $page.jqmData('noMoreNode', $('.no-more', page));
 
     $('form', page).submit(MOBILE.listPageFormChange);
+    $('form :input', page).change(MOBILE.listPageFormChange);
   },
   loadMoreClick: function(e) {
     e.preventDefault();
@@ -43,7 +45,7 @@ var MOBILE = MOBILE || {
     $loadMoreNode.addClass('ui-disabled');
 
     if (query.start === 0) {
-      $('[data-role="list"]', $page).empty();
+      $('[data-role="listview"]', $page).empty();
     }
 
     $.ajax({
@@ -61,7 +63,7 @@ var MOBILE = MOBILE || {
       $loadMoreNode.hide();
     }
     else {
-      $('[data-role="list"]', $page)
+      $('[data-role="listview"]', $page)
         .append(html);
       $loadMoreNode.show();
     }
@@ -70,9 +72,7 @@ var MOBILE = MOBILE || {
     $page.trigger('create');
     MOBILE.initDisqusCounts();
   },
-  listPageFormChange: function(e) {
-    e.preventDefault();
-    var $page = MOBILE.activePage();
+  listPageUpdateQueryFromForm: function($page) {
     var query = $page.jqmData('query');
     query.start = 0;
     var $form = $('form', $page);
@@ -85,6 +85,11 @@ var MOBILE = MOBILE || {
       }
     });
     $page.jqmData('query', query);
+  },
+  listPageFormChange: function(e) {
+    e.preventDefault();
+    var $page = MOBILE.activePage();
+    MOBILE.listPageUpdateQueryFromForm($page);
     $page.jqmData('noMoreNode').hide();
     MOBILE.listPageLoadItems();
   },
@@ -111,7 +116,6 @@ var MOBILE = MOBILE || {
   pageBeforeShow: function(event) {
     var page = event.target;
     MOBILE.initCommentsButtons(page);
-    MOBILE.initAd(page);
     $('.ui-collapsible:not(".ui-collapsible-collapsed")').each(function() {
       $('> h1 > a', this).click();
     });
@@ -122,9 +126,28 @@ var MOBILE = MOBILE || {
         $(this).addClass('ui-link-active')
       });
   },
-  pageShow: function(event, data) {
+  pageChange: function(event, data) {
+    try {
+      // This fires twice for each page load but only one has a `toPage`
+      // attribute, so we use that to only fire the tracking once.
+      if (data.hasOwnProperty('toPage')) {
+        // We only want to track pages loaded via AJAX.  The `activeIndex` is
+        // 0 on the ititial page load.
+        if ($.mobile.urlHistory.activeIndex > 0) {
+          dataLayer = dataLayer || [];
+          dataLayer.push({'event': 'ajax.page.call'});
+        }
+      }
+    }
+    catch (e) {}
   },
   pageBeforeChange: function(event, data) {
+    if (data.toPage === data.absUrl) {
+      var page = MOBILE.activePage();
+      var $panel = $('[data-role="panel"]', page);
+      $panel.panel('close');
+      $panel.find('li.ui-btn-active').removeClass('ui-btn-active');
+    }
   },
   initLinks: function(page) {
     // Don't make ajax requests for links in body content.
@@ -161,23 +184,6 @@ var MOBILE = MOBILE || {
     else {
       stButtons.locateElements();
     }
-  },
-  initAd: function(pageNode) {
-    $('.ad-close', pageNode).click(function(e) {
-      e.preventDefault();
-      var $ad = $('.ad', pageNode);
-      $ad.addClass('hide');
-      $ad.one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend',
-        function(e) {
-          // Remove the footer and trigger a page resize when the animation has
-          // completed.
-          $('[data-role="footer"]').remove();
-          $.mobile.window.trigger('throttledresize');
-        });
-      $.cookie('cartalk_mobile_hide_ad', 'true', {
-        path: '/'
-      });
-    });
   },
   initCommentsButtons: function(pageNode) {
     if ($('.disqus_data', pageNode).length === 0) {
@@ -294,7 +300,7 @@ var MOBILE = MOBILE || {
   init: function() {
     $(document).on("pageinit", MOBILE.pageInit);
     $(document).on("pagebeforeshow", MOBILE.pageBeforeShow);
-    $(document).on("pageshow", MOBILE.pageShow);
+    $(document).on("pagechange", MOBILE.pageChange);
     $(document).on("pageremove", MOBILE.pageRemove);
     $(document).on("pagebeforechange", MOBILE.pageBeforeChange);
     $.mobile.defaultPageTransition = 'slide';
