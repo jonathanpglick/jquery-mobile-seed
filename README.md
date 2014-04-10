@@ -1,5 +1,5 @@
-jQuery Mobile Seed
-==================
+Mobile Site Skeleton
+====================
 
 A jQuery Mobile seed project with a PHP backend used to retrieve data and
 compose pages.

@@ -10,7 +10,7 @@ class BaseAPI {
 
   // 12 hours.
   const MEMCACHED_EXPIRATION = 43200;
-  protected static $memcachedPrefix = 'cartalkmobile_';
+  protected static $memcachedPrefix = 'mobile_site_';
   protected static $memcached = FALSE;
 
   /**
